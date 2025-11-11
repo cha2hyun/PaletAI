@@ -1,0 +1,148 @@
+{
+  "name": "palet-ai",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist-electron/index.js",
+  "author": {
+    "name": "@cha2hyun"
+  },
+  "description": "Use multiple AI services (ChatGPT, Gemini, Perplexity) simultaneously in one beautiful desktop app.",
+  "keywords": [
+    "ai",
+    "chatgpt",
+    "gemini",
+    "perplexity",
+    "multi-ai",
+    "electron",
+    "desktop-app",
+    "react",
+    "typescript"
+  ],
+  "repository": {
+    "url": "https://github.krafton.com/sh-chae/multi-ai-electron"
+  },
+  "productName": "Palet AI",
+  "scripts": {
+    "dev": "vite",
+    "dev:electron": "npm run build:electron && electron .",
+    "build": "npm run build:vite && npm run build:electron",
+    "build:vite": "vite build",
+    "build:electron": "tsc -p electron",
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:mac": "npm run build && electron-builder --mac",
+    "dist:mac:arm64": "npm run build && electron-builder --mac --arm64",
+    "dist:mac:x64": "npm run build && electron-builder --mac --x64",
+    "dist:mac:universal": "npm run build && electron-builder --mac --universal",
+    "dist:linux": "npm run build && electron-builder --linux",
+    "pack": "npm run build && electron-builder --dir",
+    "clean": "rimraf dist main src/out",
+    "type-check": "tsc",
+    "lint": "eslint . --ext js,jsx,ts,tsx",
+    "lint:fix": "eslint . --ext js,jsx,ts,tsx --fix",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
+  },
+  "dependencies": {
+    "@heroui/react": "^2.8.5",
+    "@vitejs/plugin-react": "^1.2.0",
+    "electron-is-dev": "^2.0.0",
+    "framer-motion": "^12.23.24",
+    "i18next": "^23.11.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-i18next": "^14.1.2",
+    "vite": "^2.8.6",
+    "vite-plugin-electron": "^0.28.7",
+    "vite-plugin-electron-renderer": "^0.14.5"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.22",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "5.16.0",
+    "@typescript-eslint/parser": "5.16.0",
+    "autoprefixer": "^10.4.4",
+    "electron": "^30.0.7",
+    "electron-builder": "^24.13.3",
+    "eslint": "8.11.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "postcss": "^8.4.12",
+    "prettier": "2.6.0",
+    "tailwindcss": "^3.0.23",
+    "typescript": "^4.6.2"
+  },
+  "build": {
+    "appId": "com.paletai.app",
+    "productName": "Palet AI",
+    "asar": true,
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "compression": "maximum",
+    "icon": "resources/icon.png",
+    "files": [
+      "dist-electron",
+      "dist-vite",
+      "!node_modules",
+      "!**/*.map"
+    ],
+    "directories": {
+      "buildResources": "resources"
+    },
+    "mac": {
+      "icon": "resources/icon.icns",
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "resources/entitlements.mac.plist",
+      "entitlementsInherit": "resources/entitlements.mac.plist"
+    },
+    "win": {
+      "icon": "resources/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "icon": "resources/icon.png",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "title": "Palet AI"
+    }
+  }
+}

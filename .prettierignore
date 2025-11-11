@@ -1,0 +1,53 @@
+# 빌드 결과물
+dist/
+build/
+out/
+
+# 의존성 디렉터리
+node_modules/
+
+# 환경설정, 실행 파일
+package-lock.json
+yarn.lock
+
+# 각종 로그 파일
+*.log
+
+# 타입스크립트 컴파일 결과
+*.d.ts
+
+# 환경 변수 파일
+.env
+.env.*
+
+# 이미지, 폰트 등 바이너리 파일
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.ttf
+*.woff
+*.woff2
+*.mp4
+*.webm
+*.mov
+
+# 특정 폴더(테스트, 예시 등)
+src/locales/lang
+src/pages/onboarding
+public/
+.husky/
+.next/
+.cache/
+
+# 기타, 프로젝트별로 불필요한 파일
+.vscode/
+.idea/
+*.snap
+!.commitlintrc.cjs
+!.lintstagedrc.cjs
+!jest.config.js
+
+

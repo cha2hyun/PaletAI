@@ -1,0 +1,73 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Mac ARM64
+        run: npm run dist:mac:arm64
+
+      - name: Get version
+        id: version
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          release_name: Palet AI v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Palet AI v${{ steps.version.outputs.VERSION }}
+            
+            ### Features
+            - ChatGPT, Gemini, Perplexity, Claude AI support
+            - Multiple AI services in one app
+            - Dark and minimalist UI
+            - Maximum 4 services selection
+            - App-only zoom shortcuts (Cmd +/-)
+            
+            ### Downloads
+            - macOS (ARM64): `Palet AI-${{ steps.version.outputs.VERSION }}-arm64.dmg`
+          draft: false
+          prerelease: false
+
+      - name: Upload Mac ARM64 DMG
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/Palet AI-${{ steps.version.outputs.VERSION }}-arm64.dmg
+          asset_name: Palet AI-${{ steps.version.outputs.VERSION }}-arm64.dmg
+          asset_content_type: application/octet-stream
+
+      - name: Upload Mac ARM64 DMG Blockmap
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/Palet AI-${{ steps.version.outputs.VERSION }}-arm64.dmg.blockmap
+          asset_name: Palet AI-${{ steps.version.outputs.VERSION }}-arm64.dmg.blockmap
+          asset_content_type: application/octet-stream
+

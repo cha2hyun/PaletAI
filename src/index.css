@@ -1,0 +1,24 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* For AppBar */
+.draggable {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.undraggable {
+  -webkit-app-region: no-drag;
+}
+
+@layer base {
+  code {
+    @apply mx-2 rounded bg-gray-200 px-1 py-0.5;
+  }
+
+  .root {
+    @apply min-h-screen;
+  }
+}

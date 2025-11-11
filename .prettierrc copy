@@ -1,0 +1,31 @@
+{
+  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+  "importOrder": [
+    "^@/inzoiui$",
+    "^@/styles/.*$",
+    "^@/types/.*$",
+    "^@/locales/.*$",
+    "^@/defs/.*$",
+    "^@/routes/.*$",
+    "^@/layouts/.*$",
+    "^@/apis/.*$",
+    "^@/stores/.*$",
+    "^@/pages/.*$",
+    "^@/hooks/.*$",
+    "^@/components/.*$",
+    "^@/utils/.*$",
+    "^@/assets/.*$",
+    "^@/"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "tabWidth": 2,
+  "printWidth": 100,
+  "semi": true,
+  "useTabs": false,
+  "singleQuote": false,
+  "bracketSpacing": true,
+  "endOfLine": "auto",
+  "arrowParens": "always",
+  "trailingComma": "all"
+}

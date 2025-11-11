@@ -1,0 +1,13 @@
+🍎 Dock Icon Path: /Users/sh.chae/code/multi-ai-electron/src/assets/icons/Icon.png
+📏 Dock Icon Size: { width: 1024, height: 1024 }
+🔍 Dock Icon Empty? false
+✅ Dock icon set successfully!
+🎨 Icon Path: /Users/sh.chae/code/multi-ai-electron/src/assets/icons/Icon.png
+📁 App Path: /Users/sh.chae/code/multi-ai-electron
+🖥️  Platform: darwin
+🔧 isDev: true
+📏 Icon Size: { width: 1024, height: 1024 }
+🔍 Icon Empty? false
+(node:93642) electron: Failed to load URL: http://localhost:3000/ with error: ERR_CONNECTION_REFUSED
+(Use `Electron --trace-warnings ...` to show where the warning was created)
+/Users/sh.chae/code/multi-ai-electron/node_modules/electron/dist/Electron.app/Contents/MacOS/Electron exited with signal SIGTERM
