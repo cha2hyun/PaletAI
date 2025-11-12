@@ -43,21 +43,12 @@ jobs:
 
             ### Downloads
             - **macOS (ARM64)**: `palet-ai-macOS-arm64.zip` - Apple Silicon (M1/M2/M3)
-            - **Windows (x86)**: `palet-ai-Win32.exe` - 32-bit (⚠️ Not fully tested)
-            - **Windows (x64)**: `palet-ai-Win64.exe` - 64-bit (⚠️ Not fully tested)
             
             ### Installation Notes
             
             **macOS:**
-            1. Unzip and drag `Palet AI.app` to Applications folder
-            2. If you see "app is damaged" error, run in Terminal:
-               ```
-               xattr -cr "/Applications/Palet AI.app"
-               ```
-               Or right-click → Open → Click "Open"
-            
-            **Windows:**
-            - Run the portable executable directly (⚠️ Not fully tested yet)
+            - Recommended: Install via Homebrew `brew install --cask cha2hyun/tap/palet-ai`
+            - Or download directly and run: `xattr -cr ~/Downloads/Palet\ AI.app`
           draft: false
           prerelease: false
 
@@ -102,50 +93,6 @@ jobs:
           asset_path: ./palet-ai-macOS-arm64.zip
           asset_name: palet-ai-macOS-arm64.zip
           asset_content_type: application/zip
-
-  build-windows:
-    needs: create-release
-    runs-on: windows-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build Windows x86 (32-bit)
-        run: yarn dist:win
-
-      - name: Build Windows x64 (64-bit)
-        run: yarn dist:win:x64
-
-      - name: Upload Windows x86
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./dist/Palet AI.exe
-          asset_name: palet-ai-Win32.exe
-          asset_content_type: application/octet-stream
-
-      - name: Upload Windows x64
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./dist/Palet AI.exe
-          asset_name: palet-ai-Win64.exe
-          asset_content_type: application/octet-stream
 
   update-homebrew-tap:
     needs: [create-release, build-mac]

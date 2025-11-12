@@ -11,8 +11,10 @@ import {
   useLocalStorage,
   isValidEnabledServices,
   isValidLayoutType,
+  isValidLastUrls,
   type EnabledServices,
-  type LayoutType
+  type LayoutType,
+  type LastUrls
 } from './hooks/useLocalStorage';
 import { useWebviewManager } from './hooks/useWebviewManager';
 import { useAIServices } from './hooks/useAIServices';
@@ -31,6 +33,18 @@ function App() {
 
   const [layoutType, setLayoutType] = useLocalStorage<LayoutType>('layoutType', 'column', isValidLayoutType);
 
+  // 마지막 채팅 URL 저장
+  const [lastUrls, setLastUrls] = useLocalStorage<LastUrls>(
+    'lastUrls',
+    {
+      chatgpt: AI_SERVICES.chatgpt.url,
+      gemini: AI_SERVICES.gemini.url,
+      perplexity: AI_SERVICES.perplexity.url,
+      claude: AI_SERVICES.claude.url
+    },
+    isValidLastUrls
+  );
+
   // Webview 관리
   const { refs, webviewsReady } = useWebviewManager();
   const { chatgptRef, geminiRef, perplexityRef, claudeRef, browserRef } = refs;
@@ -48,6 +62,44 @@ function App() {
     if (layoutType === 'row') return 'flex flex-row';
     return 'grid grid-cols-2 grid-rows-2';
   }, [layoutType]);
+
+  // URL 변경 핸들러
+  const handleUrlChange = useCallback(
+    (serviceName: string, url: string) => {
+      setLastUrls((prev) => ({
+        ...prev,
+        [serviceName]: url
+      }));
+    },
+    [setLastUrls]
+  );
+
+  // New Chat 핸들러 - 모든 서비스를 메인 URL로 리셋
+  const handleNewChat = useCallback(() => {
+    const defaultUrls = {
+      chatgpt: AI_SERVICES.chatgpt.url,
+      gemini: AI_SERVICES.gemini.url,
+      perplexity: AI_SERVICES.perplexity.url,
+      claude: AI_SERVICES.claude.url
+    };
+
+    // localStorage 업데이트
+    setLastUrls(defaultUrls);
+
+    // 각 webview를 메인 URL로 리로드
+    if (chatgptRef.current) {
+      (chatgptRef.current as any).loadURL(AI_SERVICES.chatgpt.url);
+    }
+    if (geminiRef.current) {
+      (geminiRef.current as any).loadURL(AI_SERVICES.gemini.url);
+    }
+    if (perplexityRef.current) {
+      (perplexityRef.current as any).loadURL(AI_SERVICES.perplexity.url);
+    }
+    if (claudeRef.current) {
+      (claudeRef.current as any).loadURL(AI_SERVICES.claude.url);
+    }
+  }, [setLastUrls, chatgptRef, geminiRef, perplexityRef, claudeRef]);
 
   // 모든 AI 서비스에 전송
   const handleSendToAll = useCallback(async () => {
@@ -138,6 +190,8 @@ function App() {
           service={AI_SERVICES.chatgpt}
           webviewRef={chatgptRef as unknown as React.RefObject<HTMLElement>}
           isVisible={enabledServices.chatgpt}
+          lastUrl={lastUrls.chatgpt}
+          onUrlChange={handleUrlChange}
         />
 
         {/* Google Gemini */}
@@ -145,6 +199,8 @@ function App() {
           service={AI_SERVICES.gemini}
           webviewRef={geminiRef as unknown as React.RefObject<HTMLElement>}
           isVisible={enabledServices.gemini}
+          lastUrl={lastUrls.gemini}
+          onUrlChange={handleUrlChange}
         />
 
         {/* Claude */}
@@ -152,6 +208,8 @@ function App() {
           service={AI_SERVICES.claude}
           webviewRef={claudeRef as unknown as React.RefObject<HTMLElement>}
           isVisible={enabledServices.claude}
+          lastUrl={lastUrls.claude}
+          onUrlChange={handleUrlChange}
         />
 
         {/* Perplexity */}
@@ -159,6 +217,8 @@ function App() {
           service={AI_SERVICES.perplexity}
           webviewRef={perplexityRef as unknown as React.RefObject<HTMLElement>}
           isVisible={enabledServices.perplexity}
+          lastUrl={lastUrls.perplexity}
+          onUrlChange={handleUrlChange}
         />
 
         {/* Web Browser */}
@@ -178,6 +238,14 @@ function App() {
         <div className="max-w-full mx-auto space-y-2">
           {/* 상단 컨트롤 영역 */}
           <div className="flex items-center gap-4">
+            {/* New Chat 버튼 - 맨 좌측 */}
+            <button
+              onClick={handleNewChat}
+              className="h-10 px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 backdrop-blur-sm rounded-lg border border-blue-500/50 hover:border-blue-500 transition-all duration-200"
+            >
+              <span className="text-sm font-medium text-blue-400">New Chat</span>
+            </button>
+
             <ServiceSelector enabledServices={enabledServices} setEnabledServices={setEnabledServices} />
             <LayoutSelector layoutType={layoutType} setLayoutType={setLayoutType} />
 

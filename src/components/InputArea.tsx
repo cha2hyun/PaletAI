@@ -30,7 +30,7 @@ export default function InputArea({ prompt, setPrompt, isSending, onSend }: Inpu
         maxRows={15}
         classNames={{
           base: 'w-full',
-          input: 'bg-transparent text-white text-sm placeholder:text-gray-500 focus:outline-none',
+          input: 'bg-transparent text-white text-base placeholder:text-gray-500 focus:outline-none',
           inputWrapper:
             'bg-black/80 backdrop-blur-sm border border-gray-700 hover:border-gray-600 focus-within:border-gray-600 rounded-lg pr-16 !shadow-none data-[focus=true]:!shadow-none group-data-[focus=true]:!shadow-none data-[hover=true]:!bg-black/80 data-[focus=true]:!bg-black/80'
         }}
