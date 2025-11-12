@@ -5,7 +5,9 @@
   
   **The easiest way to use multiple AI services simultaneously in one screen**
   
-  Run and compare ChatGPT, Google Gemini, Claude, and Perplexity side by side. NO API KEY NEEDED
+  Run and compare ChatGPT, Google Gemini, Claude, and Perplexity side by side. 
+  
+  **NO API KEY NEEDED**
   
   <img src="Screenshot.jpg" alt="Palet AI Screenshot" width="800" />
   
