@@ -12,8 +12,8 @@
   <img src="Screenshot.jpg" alt="Palet AI Screenshot" width="800" />
   
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
-  ![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)
-  ![Version](https://img.shields.io/badge/version-1.0.2-green.svg)
+  ![Platform](https://img.shields.io/badge/platform-macOS%20ARM64-blue.svg)
+  ![Version](https://img.shields.io/badge/version-1.0.3-green.svg)
   [![Homebrew](https://img.shields.io/badge/homebrew-available-orange.svg)](https://github.com/cha2hyun/homebrew-tap)
   
 </div>
@@ -138,15 +138,9 @@ Download `palet-ai-macOS-arm64.zip`
 
 > **Why is this needed?** Without Apple Developer code signing, macOS marks downloaded apps as "quarantined". The `xattr` command removes this flag. **Homebrew does this automatically.**
 
-#### Windows
+#### Windows & Linux
 
-Download `palet-ai-Win32.exe` (32-bit) or `palet-ai-Win64.exe` (64-bit)
-
-⚠️ **Note**: Windows builds are not fully tested yet. Please report any issues you encounter.
-
-#### Linux
-
-⚠️ **Note**: Linux builds are not fully tested yet. Please report any issues you encounter.
+⚠️ **Note**: Windows and Linux builds are currently not available. macOS ARM64 (Apple Silicon) only.
 
 ### Build from Source
 
@@ -168,25 +162,9 @@ yarn dist:mac:arm64
 
 The built app can be found in the `dist/mac-arm64/` folder.
 
-#### Windows
+#### Windows & Linux
 
-```bash
-# For 32-bit
-yarn dist:win
-
-# For 64-bit
-yarn dist:win:x64
-```
-
-⚠️ **Note**: Windows builds are not fully tested yet. Please report any issues you encounter.
-
-#### Linux
-
-```bash
-yarn dist:linux
-```
-
-⚠️ **Note**: Linux builds are not fully tested yet. Please report any issues you encounter.
+⚠️ **Note**: Windows and Linux builds are currently not supported. This project focuses on macOS ARM64 (Apple Silicon) only.
 
 ---
 

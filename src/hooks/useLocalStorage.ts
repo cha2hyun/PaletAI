@@ -62,3 +62,22 @@ export function isValidLayoutType(value: unknown): value is LayoutType {
 export function isValidUrl(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0;
 }
+
+// AI 서비스별 마지막 URL 저장 타입
+export interface LastUrls {
+  chatgpt: string;
+  gemini: string;
+  perplexity: string;
+  claude: string;
+}
+
+export function isValidLastUrls(value: unknown): value is LastUrls {
+  return (
+    value !== null &&
+    typeof value === 'object' &&
+    typeof (value as LastUrls).chatgpt === 'string' &&
+    typeof (value as LastUrls).gemini === 'string' &&
+    typeof (value as LastUrls).perplexity === 'string' &&
+    typeof (value as LastUrls).claude === 'string'
+  );
+}
