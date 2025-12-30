@@ -259,6 +259,7 @@ export const AI_SERVICES: Record<string, AIServiceConfig> = {
 ### Version Auto-Sync
 
 **Important**: The app version is automatically synced from `package.json`:
+
 - `src/hooks/useReleaseChecker.ts` imports version from `package.json`
 - You only need to update the version in ONE place: `package.json`
 - Never hardcode version numbers in source files
