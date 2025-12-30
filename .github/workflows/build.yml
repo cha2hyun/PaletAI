@@ -22,6 +22,19 @@ jobs:
         id: version
         run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
+      - name: Extract changelog for current version
+        id: changelog
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          # Extract changelog section for current version
+          CHANGELOG=$(awk "/## \[$VERSION\]/,/^## \[/ {if (/^## \[$VERSION\]/) {print; next} if (/^## \[/) exit; print}" CHANGELOG.md || echo "No changelog found for this version.")
+          # Save to file to preserve formatting
+          echo "$CHANGELOG" > /tmp/current_changelog.md
+          # Set output (truncated for GitHub Actions)
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -33,72 +46,46 @@ jobs:
           body: |
             ## Palet AI v${{ steps.version.outputs.VERSION }}
             
-            ### ✨ New Features
+            ${{ steps.changelog.outputs.CHANGELOG }}
             
-            - **Mistral AI Support** - Added Mistral AI as the 5th AI service with full integration
-            - **External Browser Links** - GitHub and release links now open in your default browser
-            - **Enhanced Zoom Controls** - Added "Zoom" label for better visibility
-            - **Improved Grid Layout** - Smart 4-service limit with automatic fallback to Row layout
+            ---
             
-            ### 🎨 UI/UX Improvements
+            ## 📦 Downloads
             
-            - ⚡️ Lightning emoji on New Chat button for better visual emphasis
-            - 🎯 Cleaner labels (removed colons from Target and Layout)
-            - 📱 Responsive control layout that wraps on smaller screens
-            - 🔧 Reset button moved to Developer Tools section
+            - **macOS (ARM64)**: `palet-ai-macOS-arm64.zip` - For Apple Silicon (M1/M2/M3)
+            - **Windows (x86/x64)**: `Palet-AI-Setup.exe` - Portable installer
             
-            ### ⚙️ Default Settings
+            ## 📝 Installation
             
-            - **Default Layout**: Changed to Row (from Column) for better multi-service view
-            - **Default Zoom**: Changed to 0 (from -1) for normal size on first launch
-            - **Default Services**: All AI services enabled (ChatGPT, Gemini, Perplexity, Claude, Mistral)
-            
-            ### 🐛 Bug Fixes & Improvements
-            
-            - Added try-finally error handling for reliable message sending
-            - Fixed useEffect return type warnings
-            - Improved localStorage validation for new services
-            
-            ### 🎯 Supported AI Services
-            
-            - ChatGPT
-            - Google Gemini
-            - Perplexity
-            - Claude
-            - Mistral AI ✨ NEW
-            - Web Browser (for search comparison)
-            
-            ### 📦 Downloads
-            
-            - **macOS (ARM64)**: `palet-ai-macOS-arm64.zip` - Apple Silicon (M1/M2/M3)
-            - **Windows (x86/x64)**: `Palet-AI-Setup.exe` - Portable installer for Windows
-            
-            ### 📝 Installation
-            
-            **macOS (Recommended):**
+            ### macOS (Recommended via Homebrew)
             ```bash
             brew install --cask cha2hyun/tap/palet-ai
             ```
             
-            **macOS (Direct Download):**
+            ### macOS (Direct Download)
+            1. Download `palet-ai-macOS-arm64.zip`
+            2. Unzip and run:
             ```bash
             xattr -cr ~/Downloads/Palet\ AI.app
             ```
+            3. Drag to Applications folder
             
-            **Windows:**
-            - Download `Palet-AI-Setup.exe` and run it (portable, no installation needed)
+            ### Windows
+            - Download `Palet-AI-Setup.exe` and run it
+            - No installation required - portable app
             
-            ### 🔑 Key Features
+            ## 🎯 Key Features
             
-            - 🎯 Use 5 AI services simultaneously
-            - 🔑 **No API key needed** - Just login and use
-            - 🎨 Dark and minimalist UI
-            - 📐 Flexible layouts (Column, Row, 2x2 Grid)
-            - ⌨️ App-only zoom shortcuts (Cmd/Ctrl +/-)
+            - **5 AI Services**: ChatGPT, Gemini, Perplexity, Claude, Mistral AI
+            - **No API Key Needed**: Just login and start using
+            - **Multiple Layouts**: Column, Row, or 2x2 Grid
+            - **Dark Theme**: Eye-friendly minimalist UI
+            - **Zoom Controls**: App-only shortcuts (Cmd/Ctrl +/-)
+            - **Session Persistence**: Auto-save login sessions
             
             ---
             
-            **Full Changelog**: See [CHANGELOG.md](https://github.com/cha2hyun/palet-ai/blob/main/CHANGELOG.md)
+            📄 **Full Changelog**: [CHANGELOG.md](https://github.com/cha2hyun/palet-ai/blob/main/CHANGELOG.md)
           draft: false
           prerelease: false
 
