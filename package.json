@@ -1,6 +1,6 @@
 {
   "name": "palet-ai",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "license": "MIT",
   "main": "dist-electron/index.js",
   "author": {

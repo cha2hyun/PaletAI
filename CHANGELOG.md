@@ -2,6 +2,21 @@
 
 All notable changes to Palet AI will be documented in this file.
 
+## [1.0.9] - 2026-01-26
+
+### 🎨 UI/UX Improvements
+
+- **Reset Button Relocated**: Moved Reset button from Developer Tools to main control area
+  - Now visible at all times (not just in dev mode)
+  - Red-themed styling for clear visibility
+  - Added reset icon for better visual feedback
+
+- **Auto-Clear Prompt Input**: Prompt input field is now automatically cleared after sending
+  - Improves workflow when sending multiple prompts
+  - No need to manually clear the input field
+
+---
+
 ## [1.0.8] - 2025-12-30
 
 ### ⚙️ Developer Experience
