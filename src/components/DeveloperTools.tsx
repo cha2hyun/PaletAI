@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { Tooltip } from '@heroui/react';
 import { WebviewElement } from '../hooks/useWebviewManager';
 
 interface DeveloperToolsProps {
@@ -194,29 +193,6 @@ export default function DeveloperTools({ chatgptRef, geminiRef, perplexityRef, c
             </button>
           </div>
 
-          <div className="h-4 w-px bg-gray-800" />
-          <Tooltip
-            content="Reset to initial state. All login sessions will be cleared."
-            placement="top"
-            showArrow
-            delay={0}
-            closeDelay={0}
-            classNames={{
-              content: 'bg-gray-800 text-white text-xs px-2 py-1 rounded max-w-xs'
-            }}
-          >
-            <button
-              onClick={() => {
-                if (window.confirm('Reset to initial state? All settings and login sessions will be cleared.')) {
-                  localStorage.clear();
-                  window.location.reload();
-                }
-              }}
-              className="px-2 py-0.5 text-xs bg-red-600/20 text-red-400 rounded hover:bg-red-600/30 hover:text-red-300 transition-all whitespace-nowrap"
-            >
-              Reset
-            </button>
-          </Tooltip>
         </>
       )}
     </div>

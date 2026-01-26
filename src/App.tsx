@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { Chip } from '@heroui/react';
+import { Chip, Tooltip } from '@heroui/react';
 import AppBar from './AppBar';
 import ServiceSelector from './components/ServiceSelector';
 import LayoutSelector from './components/LayoutSelector';
@@ -222,6 +222,8 @@ function App() {
       if (enabledServices.browser && webviewsReady.browser) {
         await searchInBrowser(browserRef, prompt);
       }
+      // 전송 완료 후 프롬프트 입력창 비우기
+      setPrompt('');
     } finally {
       // 모든 작업 완료 후 1초 뒤 isSending을 false로 설정
       setTimeout(() => {
@@ -370,6 +372,38 @@ function App() {
                 mistralRef={mistralRef}
               />
             )}
+
+            {/* Reset 버튼 */}
+            <Tooltip
+              content="Reset to initial state. All login sessions will be cleared."
+              placement="top"
+              showArrow
+              delay={0}
+              closeDelay={0}
+              classNames={{
+                content: 'bg-gray-800 text-white text-xs px-2 py-1 rounded max-w-xs'
+              }}
+            >
+              <button
+                onClick={() => {
+                  if (window.confirm('Reset to initial state? All settings and login sessions will be cleared.')) {
+                    localStorage.clear();
+                    window.location.reload();
+                  }
+                }}
+                className="flex items-center gap-2 h-10 px-4 py-2 bg-red-600/20 backdrop-blur-sm rounded-lg border border-red-500/50 hover:border-red-500 hover:bg-red-600/30 transition-all cursor-pointer"
+              >
+                <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
+                </svg>
+                <span className="text-xs font-medium text-red-400">Reset</span>
+              </button>
+            </Tooltip>
 
             {/* GitHub 바로가기 */}
             <button
